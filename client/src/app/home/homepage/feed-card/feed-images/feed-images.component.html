@@ -1,0 +1,11 @@
+<div class="card-image" *ngIf="media?.length">
+  <ng-container >
+    <figure class="image is-1by1">
+      <img  [src]="media"  alt="Image" (dblclick)="onDoubleClick()">
+      
+    </figure>
+  </ng-container>
+</div> 
+
+<!-- <slideshow (dblclick)="onDoubleClick()" [minHeight]="'450px'" [arrowSize]="'15px'" [showArrows]="media?.length > 1"
+  [imageUrls]="media" [lazyLoad]="media?.length > 1" [showDots]="media?.length > 1"></slideshow>-->

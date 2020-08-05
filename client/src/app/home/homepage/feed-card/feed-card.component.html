@@ -1,0 +1,69 @@
+<article class="columns is-centered feed-card">
+  <div class="column is-half">
+    <div class="card large">
+      <div class="card-content header-info">
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-32x32">
+              <img class="is-rounded" [src]="feed?.user?.profilePhoto ? feed?.user?.profilePhoto : defaultAvatar" alt="Image">
+            </figure>
+          </div>
+          <div class="media-content">
+            <p class="title is-5 pb-1 user-name">{{ feed?.user?.displayName }}</p>
+            <p class="feed-location" *ngIf="feed?.workout?.featured">Hot & Featured</p>
+          </div>  
+          <div class="right">
+            <p>{{ feed?.dateFormatted }}</p>     
+          </div>        
+        </div>
+        
+      </div>
+      <div class="container-img-text">
+      <ia-feed-images [media]="feed?.workout?.imageUrl ? feed?.workout?.imageUrl : feed?.user?.profilePhoto" [feedId]="feed?.id" (imageLiked)="imageLiked($event)"></ia-feed-images>
+      <div class="img-text-bottom-left">
+        <p>
+          <span>{{feed?.workout?.duration}}</span>
+          <span  *ngIf="feed?.workoutFromPlanInfo?.planInfoFormatted">{{ feed?.workoutFromPlanInfo?.planInfoFormatted }}</span>
+        </p>
+        <p class="title is-5 no-padding " style="color: white;">{{ feed?.workout?.name }}</p>
+        <p class="feed-location" *ngIf="feed?.workout?.usersComment">{{ feed?.workout?.usersComment }}</p>
+      </div>
+      </div>
+      
+      
+      <div class="card-content space-between">
+        
+        <div class="left">
+          <img class="feed-icons" src="/assets/icons/share-icon.png" alt="share">
+        </div>
+        
+        <div class="right">
+          <img class="feed-icons" src="/assets/icons/comment-icon.png" alt="comment" (click)="showCommentBox()">
+          <img [className]="isThisFeedLiked ? 'feed-icons liked': 'feed-icons'" [src]="heartIcon" (click)="like()"
+            alt="like">          
+        </div>
+
+
+      </div>
+      <div class="card-content description-comments">
+        <div class="content">
+          <ng-container *ngIf="feed?.description">
+            {{ feed.description }}
+            <br>
+          </ng-container>
+          <time datetime="2016-1-1">{{feed.createdAt | date: 'medium'}}</time>
+          <div class="feed-comments" *ngIf="feed?.feedComments?.length">
+            <ng-container *ngFor="let comment of feed.feedComments">
+              <ia-feed-comments [comment]="comment"></ia-feed-comments>
+            </ng-container>
+          </div>
+          <div class="comment-box" *ngIf="isCommentBoxOpen">
+            <input type="text" placeholder="Add a comment..." [(ngModel)]="comment">
+            <button type="button" class="button is-small" [disabled]="comment ===''"
+              (click)="postComment()">Post</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
